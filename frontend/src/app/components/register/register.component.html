@@ -1,0 +1,17 @@
+<div class="container mt-5">
+    <h2>Đăng ký</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="mb-3">
+        <label class="form-label">Tên đăng nhập</label>
+        <input type="text" class="form-control" formControlName="username" required />
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Mật khẩu</label>
+        <input type="password" class="form-control" formControlName="password" required />
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Đăng ký</button>
+    </form>
+  </div>
+  

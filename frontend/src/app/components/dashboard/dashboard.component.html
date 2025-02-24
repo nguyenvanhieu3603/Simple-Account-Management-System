@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <h2>Danh sách tài khoản</h2>
+
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user._id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm me-2" (click)="editUser(user)">Sửa</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteUser(user._id)">Xóa</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Form chỉnh sửa user -->
+  <div *ngIf="selectedUser" class="mt-4">
+    <h3>Chỉnh sửa tài khoản</h3>
+    <form [formGroup]="editForm" (ngSubmit)="updateUser()">
+      <div class="mb-3">
+        <label class="form-label">Username:</label>
+        <input type="text" class="form-control" formControlName="username">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Role:</label>
+        <select class="form-control" formControlName="role">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="selectedUser = null">Hủy</button>
+    </form>
+  </div>
+</div>
