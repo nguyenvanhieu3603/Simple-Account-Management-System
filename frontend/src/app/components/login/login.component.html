@@ -1,0 +1,22 @@
+<div class="container mt-5">
+    <h2>Đăng nhập</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="mb-3">
+        <label class="form-label">Tên đăng nhập</label>
+        <input type="text" class="form-control" formControlName="username" required />
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Mật khẩu</label>
+        <input type="password" class="form-control" formControlName="password" required />
+      </div>
+      
+      <!-- 🔥 Hiển thị thông báo lỗi -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+    
+      <button type="submit" class="btn btn-success" [disabled]="loginForm.invalid">Đăng nhập</button>
+    </form>
+  </div>
+  

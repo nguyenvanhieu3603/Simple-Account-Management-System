@@ -1,0 +1,84 @@
+<div class="container mt-4">
+  <h2>Danh sách tài khoản</h2>
+
+  <!-- Ô tìm kiếm -->
+  <input type="text" class="form-control mb-3" placeholder="🔍 Tìm kiếm username..." [(ngModel)]="searchQuery" (input)="onSearchChange()">
+
+  <!-- Nút Thêm Người Dùng Mới -->
+  <button class="btn btn-success mb-3" (click)="showAddUserForm = !showAddUserForm">
+    ➕ Thêm Người Dùng Mới
+  </button>
+
+  <!-- Form Thêm Người Dùng Mới -->
+  <div *ngIf="showAddUserForm" class="card p-3 mb-4">
+    <h3>Thêm Tài Khoản Mới</h3>
+    <form [formGroup]="addUserForm" (ngSubmit)="addUser()">
+      <div class="mb-3">
+        <label class="form-label">Username:</label>
+        <input type="text" class="form-control" formControlName="username" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Mật khẩu:</label>
+        <input type="password" class="form-control" formControlName="password" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Role:</label>
+        <select class="form-control" formControlName="role">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Thêm Người Dùng</button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="showAddUserForm = false">Hủy</button>
+    </form>
+  </div>
+
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Role</th>
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{ user._id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm me-2" (click)="editUser(user)">Sửa</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteUser(user._id)">Xóa</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Phân trang -->
+  <div class="pagination mt-3">
+    <button class="btn btn-secondary" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">❮ Trước</button>
+    <span class="mx-2">Trang {{ currentPage }} / {{ totalPages }}</span>
+    <button class="btn btn-secondary" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">Tiếp ❯</button>
+  </div>
+
+  <!-- Form chỉnh sửa user -->
+  <div *ngIf="selectedUser" class="mt-4">
+    <h3>Chỉnh sửa tài khoản</h3>
+    <form [formGroup]="editForm" (ngSubmit)="updateUser()">
+      <div class="mb-3">
+        <label class="form-label">Username:</label>
+        <input type="text" class="form-control" formControlName="username">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Role:</label>
+        <select class="form-control" formControlName="role">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="selectedUser = null">Hủy</button>
+    </form>
+  </div>
+</div>
