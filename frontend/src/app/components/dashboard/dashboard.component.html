@@ -63,7 +63,7 @@
   </div>
 
   <!-- Form chỉnh sửa user -->
-  <div *ngIf="selectedUser" class="mt-4">
+  <div *ngIf="selectedUser" #editSection class="mt-4">
     <h3>Chỉnh sửa tài khoản</h3>
     <form [formGroup]="editForm" (ngSubmit)="updateUser()">
       <div class="mb-3">

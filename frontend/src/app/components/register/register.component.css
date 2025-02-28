@@ -1,0 +1,86 @@
+/* Shared Styles - Modern Design with Balanced Layout */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+  animation: fadeIn 1s ease-in-out;
+  font-family: 'Montserrat', sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  width: 450px;
+  padding: 40px;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+  box-sizing: border-box;
+}
+
+.container h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.container form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container input {
+  background-color: #f3f3f3;
+  border: 1px solid #ddd;
+  padding: 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  width: 100%;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.container input:focus {
+  border-color: #512da8;
+  box-shadow: 0 0 5px rgba(81, 45, 168, 0.4);
+}
+
+button {
+  padding: 14px;
+  background: #512da8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+button:hover {
+  background: #8e54e9;
+}
+
+a {
+  color: #512da8;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-weight: 500;
+}
+
+a:hover {
+  color: #8e54e9;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

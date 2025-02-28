@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ViewChild, ElementRef, inject, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
@@ -6,57 +6,67 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
+  selector: 'app-dashboard',                             
+  standalone: true,                                      
   imports: [CommonModule, HttpClientModule, ReactiveFormsModule, FormsModule], 
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  templateUrl: './dashboard.component.html',             
+  styleUrls: ['./dashboard.component.css']               
 })
-export class DashboardComponent {
-  users: any[] = [];
-  editForm: FormGroup;
-  addUserForm: FormGroup;
-  showAddUserForm: boolean = false;  
-  selectedUser: any = null;
 
-  currentPage: number = 1;
-  totalPages: number = 1;
-  pageSize: number = 10;
+export class DashboardComponent implements AfterViewChecked {
+  @ViewChild('editSection', { static: false }) editSection!: ElementRef;
+  users: any[] = [];                 
+  editForm: FormGroup;               
+  addUserForm: FormGroup;            
+  showAddUserForm: boolean = false;   
+  selectedUser: any = null;          
 
-  searchQuery: string = '';  // 🔍 Biến lưu từ khóa tìm kiếm
+  currentPage: number = 1;           
+  totalPages: number = 1;            
+  pageSize: number = 10;             
+
+  searchQuery: string = '';          
 
   private userService = inject(UserService);
   private fb = inject(FormBuilder);
+  private scrollToEdit = false;
 
   constructor() {
     this.editForm = this.fb.group({
       username: ['', Validators.required],
-      role: ['', Validators.required]
+      role: ['', Validators.required]      
     });
 
     this.addUserForm = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-      role: ['user', Validators.required]
+      role: ['user', Validators.required]   
     });
 
-    this.loadUsers();
+    this.loadUsers(); 
   }
 
-  // Load danh sách tài khoản (có thể kèm từ khóa tìm kiếm)
+  ngAfterViewChecked() {
+    if (this.scrollToEdit && this.editSection) {
+      this.editSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      this.scrollToEdit = false;
+    }
+  }
+
   loadUsers() {
     this.userService.getUsers(this.currentPage, this.pageSize, this.searchQuery).subscribe({
       next: (data: any) => {
         this.users = data.users;
         this.totalPages = data.totalPages;
       },
-      error: (err: any) => { console.error('Error:', err); }
+      error: (err: any) => {
+        console.error('Error:', err);
+      }
     });
   }
 
-  // Xử lý khi nhập từ khóa tìm kiếm
   onSearchChange() {
-    this.currentPage = 1;  // Reset về trang 1
+    this.currentPage = 1;
     this.loadUsers();
   }
 
@@ -73,6 +83,7 @@ export class DashboardComponent {
       username: user.username,
       role: user.role
     });
+    this.scrollToEdit = true;
   }
 
   updateUser() {
